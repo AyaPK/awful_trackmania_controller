@@ -113,9 +113,11 @@ while True:
 
     # Handle push buttons
     if switch_right.fell:
-        print("Right Encoder Button Pressed!")
+        print("Right Encoder Button Pressed - B Button!")
+        gamepad.press_button(2, True)  # Press B button (button 2)
     if switch_right.rose:
-        print("Right Encoder Button Released!")
+        print("Right Encoder Button Released - B Button!")
+        gamepad.press_button(2, False)  # Release B button
 
     if switch_left.fell:
         print("Left Encoder Button Pressed - A Button!")
@@ -125,12 +127,18 @@ while True:
         gamepad.press_button(1, False)  # Release A button
 
     if btn_switch.fell:
+        print("Reset Button Pressed - X Button!")
         stick_x = 0
         counter_left = 0
-        # Only send if position actually changed
+        gamepad.press_button(3, True)  # Press X button (button 3)
+        # Only send stick reset if position actually changed
         if last_stick_x != stick_x:
             gamepad.move_joysticks(x=stick_x, y=0)
             last_stick_x = stick_x
+    
+    if btn_switch.rose:
+        print("Reset Button Released - X Button!")
+        gamepad.press_button(3, False)  # Release X button
 
     # Rotary encoder logic with proper debouncing
     current_clk_right = clk_right.value
